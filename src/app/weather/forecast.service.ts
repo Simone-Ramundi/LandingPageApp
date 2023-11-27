@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, switchMap, pluck, mergeMap, filter} from 'rxjs/operators';
+import { map, switchMap, pluck, mergeMap, filter, toArray} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 interface OpenWeatherResponse {
@@ -33,7 +33,14 @@ export class ForecastService {
       switchMap(params => this.http.get<OpenWeatherResponse>(this.url, { params })),
       pluck('list'),
       mergeMap(value => of(...value)),
-      filter((value, index) => index % 8 === 0)
+      filter((value, index) => index % 8 === 0),
+      map(value => {
+        return {
+          dateString: value.dt_txt,
+          temp: value.main.temp
+        };
+      }),
+      toArray()
     );
   }
 
