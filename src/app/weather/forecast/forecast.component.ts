@@ -7,10 +7,13 @@ import { ForecastService } from '../forecast.service';
 })
 export class ForecastComponent implements OnInit {
 
+  forecastData = [];
+
   constructor(forecastService: ForecastService) { 
     forecastService.getForecast()
-    .subscribe((weatherResponse)=>{
-      console.log(weatherResponse);
+    .subscribe((forecastData)=>{
+      // console.log(forecastData);
+      this.forecastData = forecastData;
     })
   }
 
