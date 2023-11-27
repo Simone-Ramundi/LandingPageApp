@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { HttpParams } from '@angular/common/http'
+import { map, switchMap } from 'rxjs/operators';
+import { HttpClient, HttpParams } from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ForecastService {
+  private url = 'https://api.openweathermap.org/data/2.5/forecast';
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getForecast(){
     return this.getCurrentLocation()
@@ -19,7 +20,8 @@ export class ForecastService {
           .set('lon', String(coords.longitude))
           .set('units', 'metric')
           .set('appid', '6c320dae9fe183693afb249edb194b69')
-      })
+      }),
+      switchMap(params => this.http.get(this.url, { params }))
     )
   }
 
