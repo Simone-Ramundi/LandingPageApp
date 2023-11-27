@@ -39,7 +39,7 @@ export class ForecastService {
           dateString: value.dt_txt,
           temp: value.main.temp
         };
-      }),
+      }), 
       toArray()
     );
   }
