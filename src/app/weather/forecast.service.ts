@@ -60,9 +60,14 @@ export class ForecastService {
         );
       }).pipe(
         tap(()=>{
-          this.notificationsServices.addSuccess('Got your location');
-        }, ()=>{
+          this.notificationsServices.addSuccess('Got your location :)');
+        }
+        ),
+        catchError((err)=>{
+          // 1 Handle the error
           this.notificationsServices.addError('Failed to get your location :(');
+          // 2 Return a new observable
+          return throwError(err);
         })
       );
   }
