@@ -9,15 +9,19 @@ import { Observable } from 'rxjs';
 export class NotificationsListComponent implements OnInit {
   messages: Observable<Command[]>;
 
-  constructor(notificationsService: NotificationsService) { 
-    this.messages = notificationsService.messagesOutput;
+  constructor(private notificationsService: NotificationsService) { 
+    this.messages = this.notificationsService.messagesOutput;
 
     setInterval(()=>{
-      notificationsService.addError('It does not work :(');
-    }, 500)
+      this.notificationsService.addSuccess('IT IS WORKING');
+    }, 2000)
   }
 
   ngOnInit() {
+  }
+
+  clearMessage(id: number){
+    this.notificationsService.clearMessage(id);
   }
 
 }
