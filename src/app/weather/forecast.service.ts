@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, pluck, mergeMap, filter, toArray, share} from 'rxjs/operators';
+import { Observable, of, throwError} from 'rxjs';
+import { map, switchMap, pluck, mergeMap, filter, toArray, share, tap, catchError} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { NotificationsService } from '../notifications/notifications.service';
 
@@ -59,7 +59,11 @@ export class ForecastService {
         (err) => observer.error(err)
         );
       }).pipe(
-        
+        tap(()=>{
+          this.notificationsServices.addSuccess('Got your location');
+        }, ()=>{
+          this.notificationsServices.addError('Failed to get your location :(');
+        })
       );
   }
 }
