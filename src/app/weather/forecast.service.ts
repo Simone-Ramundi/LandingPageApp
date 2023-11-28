@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError} from 'rxjs';
-import { map, switchMap, pluck, mergeMap, filter, toArray, share, tap, catchError} from 'rxjs/operators';
+import { map, switchMap, pluck, mergeMap, filter, toArray, share, tap, catchError, retry} from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { NotificationsService } from '../notifications/notifications.service';
 
@@ -50,7 +50,7 @@ export class ForecastService {
   }
 
   getCurrentLocation(){
-    return new Observable<GeolocationCoordinates>((observer)=>{
+    return new Observable<GeolocationCoordinates>(observer=>{
         window.navigator.geolocation.getCurrentPosition(
         (position) => {
           observer.next(position.coords);
@@ -59,6 +59,7 @@ export class ForecastService {
         (err) => observer.error(err)
         );
       }).pipe(
+        retry(1),
         tap(()=>{
           this.notificationsServices.addSuccess('Got your location :)');
         }
