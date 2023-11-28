@@ -58,6 +58,8 @@ export class ForecastService {
         },
         (err) => observer.error(err)
         );
-      });
+      }).pipe(
+        
+      );
   }
 }
