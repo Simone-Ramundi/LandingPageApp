@@ -22,9 +22,10 @@ export class NewsApiService {
 
   pagesInput: Subject<number>;
   pagesOutput: Observable<any>;
-  numberOfPages: Observable<number>;
+  numberOfPages: Subject<number>;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
+    this.numberOfPages = new Subject(); 
     this.pagesInput = new Subject();
     this.pagesOutput = this.pagesInput.pipe(
       map((page)=>{
@@ -36,6 +37,11 @@ export class NewsApiService {
       }),
       switchMap((params)=>{
         return this.http.get<NewsApiResponse>(this.url, {params})
+      }),
+      tap(response=>{
+        const totalPages = Math.ceil(response.totalResult / this.pageSize);
+        // 55 / 10 = 5.5 -> 6 pages
+        this.numberOfPages.next(totalPages);
       })
     )
   }
