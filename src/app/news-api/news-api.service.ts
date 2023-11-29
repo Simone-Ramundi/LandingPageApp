@@ -13,6 +13,12 @@ export class NewsApiService {
 
   pagesInput: Subject<number>;
   pagesOutput: Observable<any>;
+  numberOfPages: Observable<number>;
 
-  constructor() { }
+  constructor() { 
+    this.pagesInput = new Subject();
+    this.pagesOutput = this.pagesInput.pipe(
+      
+    )
+  }
 }
