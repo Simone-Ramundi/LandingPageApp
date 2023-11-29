@@ -6,6 +6,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export interface Article {
   title: string;
   url: string;
+  source: {
+    name: string;
+  };
 }
 
 interface NewsApiResponse {
