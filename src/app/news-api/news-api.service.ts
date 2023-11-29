@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { map, switchMap, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,9 @@ export class NewsApiService {
   private pageSize = 10;
   private apiKey = '8b18fbdc167e4d529fd1f790f999763b';
   private country = 'it';
+
+  pagesInput: Subject<number>;
+  pagesOutput: Observable<any>;
 
   constructor() { }
 }
