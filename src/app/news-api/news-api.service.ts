@@ -32,7 +32,7 @@ export class NewsApiService {
     this.pagesOutput = this.pagesInput.pipe(
       map((page)=>{
         return new HttpParams()
-        .set('api', this.apiKey)
+        .set('apiKey', this.apiKey)
         .set('country', this.country)
         .set('pageSize', String(this.pageSize))
         .set('page', String(page));
